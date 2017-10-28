@@ -8,8 +8,8 @@ for file in filenames:
     try:
         f = open(file, 'r')
         line = f.readline()
+        f.close()
         if line == "":
-            f.close()
             raise EmptyFileError("%s: is empty" % file)
     except IOError as error:
         print("%s: could not be opened: %s" % (file, error.strerror))
@@ -17,7 +17,7 @@ for file in filenames:
         print(error)
     else:
         #没有异常时执行
-        print("%s: %s" % (file, line))
+        print("无异常%s: %s" % (file, line))
     finally:
         print("Done processing", file)
 

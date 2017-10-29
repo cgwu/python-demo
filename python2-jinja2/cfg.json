@@ -1,0 +1,6 @@
+{
+"name": "ACME", 
+"extra": [1, "hello中国", ["1", "2"]], 
+"price": 3.1415, 
+"shares": 100
+}

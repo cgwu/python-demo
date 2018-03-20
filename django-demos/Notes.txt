@@ -10,3 +10,4 @@ ALLOWED_HOSTS = ['*']
 BASE_DIR: django-admin startproject coffeehouse
 PROJECT_DIR: django-admin startapp about
 
+

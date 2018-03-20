@@ -7,5 +7,22 @@
 <body>
    <h1>This is about page!</h1>  
    <h1>联系我界面!</h1>  
+   <a href="{% url 'homepage' %}">Back to home page</a>
+   <br>
+   <a href="{% url 'stores:index' %}">Back to stores index</a>
+
+   <hr>
+   {% if messages %}
+   <ul class="messages">
+    {% for msg in messages %}
+    <li>
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
 </body>
 </html>

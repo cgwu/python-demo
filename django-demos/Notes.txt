@@ -1,7 +1,12 @@
+<<Beginning Django.pdf>>
+
 允许的主机，是本机地址,或是*号允许所有:
 ALLOWED_HOSTS = ['192.168.1.80']
 ALLOWED_HOSTS = ['*']
 
 启动命令:
 ./manage.py runserver 192.168.1.80:8000
+
+BASE_DIR: django-admin startproject coffeehouse
+PROJECT_DIR: django-admin startapp about
 

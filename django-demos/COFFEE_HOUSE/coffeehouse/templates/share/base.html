@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Default Title{% endblock title %}</title>
+    <meta name="description" content="{% block metadescription%}{% endblock metadescription %}">
+    <meta name="keywords" content="{% block metakeywords%}{% endblock metakeywords %}">
+</head>
+<body>
+    <p>{% block breadcrumb %}Home{% endblock breadcrumb %}</p>     
+    {% block body %}{% endblock body %}
+</body>
+</html>

@@ -33,7 +33,7 @@ class AboutIndex(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AboutIndex, self).get_context_data(**kwargs)
-        context['aboutdata'] = 'Custom data'
+        context['aboutdata'] = 'Custom data<>&'
         return context
 
 #Class-based view inherited from View with multiple HTTP handling

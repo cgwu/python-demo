@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for coffeehouse project.
 
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'coffeehouse.about',
+    'coffeehouse.stores',
+    'coffeehouse.jj2app',
 ]
 
 MIDDLEWARE = [
@@ -57,13 +60,31 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'coffeehouse.urls'
 
+#print('jinja2 tpl path: %s/jinja2tpl/' % PROJECT_DIR)
+
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['%s/templates/' % PROJECT_DIR],
+        'NAME': 'JINJA2',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': ['%s/jinja2/' % (PROJECT_DIR),],
         'APP_DIRS': True,
         'OPTIONS': {
+            #'autoescape': False,
+            #'cache_size': 400, # default size of template cached.
+            #'undefined': Jinja2.StrictUndefined,   #ERROR
+        }
+    },
+    {
+        'NAME': 'DJANGO',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['%s/templates/' % PROJECT_DIR],
+        # The APP_DIRS variable set to True tells Django to look for templates in Django app subfolders named templates
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': True,
+            'autoescape': True,
             'context_processors': [
+                #  context processor offers the ability to share data across all Django templates, without the need to define it in a piecemeal fashion in Django views
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

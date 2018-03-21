@@ -36,5 +36,6 @@ urlpatterns = [
     #url(r'^stores/(?P<store_id>\d+)$', stores_views.detail),
     url(r'^stores/', include('coffeehouse.stores.urls', namespace='stores'), {'location':'headquarters'}),
 
+    url(r'^jj2app/', include('coffeehouse.jj2app.urls', namespace='jj2app')),
 ]
 

@@ -6,5 +6,40 @@
 </head>
 <body>
     <h1>Jinja2 foo page!</h1> 
+
+    {% import 'jj2app/base.html' as base %}
+    {{base.coffeestore('1Downtown',1,'Horton Plaza','San Diego','CA','downtown@coffeehouse.com')}}
+
+    {% from 'jj2app/base.html' import coffeestore as mycoffeestoremacro %}
+    {{mycoffeestoremacro('2Downtown',1,'Horton Plaza','San Diego','CA','downtown@coffeehouse.com')}}
+    <hr>
+
+{% call base.contentlist() %}
+  <ul>
+    <li>This is my list</li>
+  </ul>
+{% endcall %}
+<hr>
+
+# variable definition<br>
+{% set coffeestores=[{'id':0,'name':'Corporate','address':'624 Broadway','city':'San Diego',
+'state':'CA','email':'corporate@coffeehouse.com'},{'id':1,'name':'Downtown','address':'Hort
+on Plaza','city':'San Diego','state':'CA','email':'downtown@coffeehouse.com'},{'id':2,'name
+':'Uptown','address':'1240 University Ave','city':'San Diego','state':'CA','email':'uptown@
+coffeehouse.com'},{'id':3,'name':'Midtown','address':'784 W Washington St','city':'San Diego
+','state':'CA','email':'midtown@coffeehouse.com'}] %}
+
+# macro call/invocation<br>
+{% call(item) base.contentlist(coffeestores) %}
+    <a id="{{item.id}}"></a>
+    <h4>{{item.name}}</h4>
+    <p>{{item.address}} {{item.city}},{{item.state}}</p>
+    {% if item.email %}<p><a href='mailto:{{item.email}}'>{{item.email}}</a></p>{% endif %}
+{% endcall %}
+<hr>
+
+<h2>global_msg: {{global_msg}}</h2>
+<img src="{{ static('baidu.png') }}" alt="Background">
+
 </body>
 </html>

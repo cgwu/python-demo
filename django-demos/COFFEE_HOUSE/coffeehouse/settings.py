@@ -69,6 +69,7 @@ TEMPLATES = [
         'DIRS': ['%s/jinja2/' % (PROJECT_DIR),],
         'APP_DIRS': True,
         'OPTIONS': {
+            'environment': 'coffeehouse.jinja2.env.JinjaEnvironment',
             #'autoescape': False,
             #'cache_size': 400, # default size of template cached.
             #'undefined': Jinja2.StrictUndefined,   #ERROR
@@ -145,3 +146,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, "static"),
+    '/var/www/static/',
+]
+

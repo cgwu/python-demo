@@ -1,5 +1,10 @@
 {# This is a template comment that isn't rendered #}
 {% extends 'jj2app/index.html' %}
 {% block breadcrumb %} {{super()}} : Detail {% endblock breadcrumb %}
-{% block body %}detail body{% endblock body %}
+{% block body %}
+<h2>detail body</h2>
+
+{{coffeestore('detail page', 1, 'Horton Plaza', 'San Diego', 'CA', 'downtown@coffeehouse.com')}}
+
+{% endblock body %}
 

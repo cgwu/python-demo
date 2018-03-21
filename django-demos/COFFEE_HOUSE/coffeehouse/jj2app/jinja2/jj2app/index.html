@@ -1,4 +1,9 @@
 {% extends 'jj2app/base.html' %}
 {% block breadcrumb %}Index{% endblock breadcrumb %}
-{% block body %}Index body{% endblock body %}
+{% block body %}
+<h2>Index body</h2>
+
+{{coffeestore('Downtown', 1, 'Horton Plaza', 'San Diego', 'CA', 'downtown@coffeehouse.com')}}
+
+{% endblock body %}
 

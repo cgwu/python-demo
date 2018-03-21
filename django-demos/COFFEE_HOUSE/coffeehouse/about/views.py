@@ -1,8 +1,9 @@
 from django.shortcuts import render
 
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.views.generic import TemplateView, View
 
 # Create your views here.
 def index(request):
@@ -24,3 +25,26 @@ def home(request):
 
 def method(request):
     return HttpResponsePermanentRedirect(reverse('drink', args=(drink.name,)))
+
+
+#CLASS BASED VIEW
+class AboutIndex(TemplateView):
+    template_name='index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AboutIndex, self).get_context_data(**kwargs)
+        context['aboutdata'] = 'Custom data'
+        return context
+
+#Class-based view inherited from View with multiple HTTP handling
+class ContactPage(View):
+    mytemplate = 'about/contact.html'
+    unsupported = 'Unsupported operation'
+
+    def get(self, request):
+        return render(request, self.mytemplate)
+
+    def post(self, request):
+        return HttpResponse(self.unsupported)
+
+

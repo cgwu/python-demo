@@ -6,4 +6,7 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^home/$', views.home),
     url(r'^method/$', views.method),
+
+    url(r'^index-class$', views.AboutIndex.as_view(), {'onsale':True}),
+    url(r'^contact-class$', views.ContactPage.as_view()),
 ]

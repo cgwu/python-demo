@@ -196,7 +196,7 @@ LOGGING = {
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'verbose': {
-            'format': '[%(asctime)s.%(msecs)d] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+            'format': '[%(asctime)s.%(msecs)03d] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
     },

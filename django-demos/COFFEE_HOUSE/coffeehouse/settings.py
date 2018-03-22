@@ -30,7 +30,11 @@ SECRET_KEY = 'kcs+%f+q_^qzf_u@^lol#(uv-h*=_r)-*&62_h&_6#7=lnh=d7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.80']
+#The purpose of ALLOWED_HOSTS is to validate a request’s HTTP Host header.
+ALLOWED_HOSTS = [
+    '192.168.1.80',
+    '.coffeehouse.com',
+]
 
 
 # Application definition
@@ -46,9 +50,11 @@ INSTALLED_APPS = [
     'coffeehouse.about',
     'coffeehouse.stores',
     'coffeehouse.jj2app',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -148,6 +154,27 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
-    '/var/www/static/',
+    #'/var/www/static/',
 ]
+
+# django-debug-toolbar 设置
+INTERNAL_IPS = ('127.0.0.1','192.168.1.5') #允许这些IP访问时显示debug-toolbar.
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]
+DEBUG_TOOLBAR_CONFIG = {
+    #'JQUERY_URL': '//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js',
+    'JQUERY_URL': '//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js',
+}
 

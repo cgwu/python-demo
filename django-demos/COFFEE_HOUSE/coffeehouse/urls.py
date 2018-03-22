@@ -17,6 +17,8 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
+from django.conf import settings
+
 #from coffeehouse.about import views as about_views
 #from coffeehouse.stores import views as stores_views
 
@@ -38,4 +40,11 @@ urlpatterns = [
 
     url(r'^jj2app/', include('coffeehouse.jj2app.urls', namespace='jj2app')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
 

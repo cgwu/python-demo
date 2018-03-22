@@ -23,6 +23,15 @@
     {% endfor %}
     </ul>
     {% endif %}
-
+    <hr>
+    
+    <form method="POST">
+    {% csrf_token %}
+    <table>
+    {#{form.as_p}#}
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="Submit form">
+    </form>
 </body>
 </html>

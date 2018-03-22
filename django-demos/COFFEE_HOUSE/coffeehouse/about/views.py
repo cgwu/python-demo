@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
-from django.http import HttpResponsePermanentRedirect, HttpResponse
+from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.generic import TemplateView, View
+
+from .models import ContactForm
 
 # Create your views here.
 def index(request):
@@ -18,7 +20,18 @@ def contact(request):
     messages.warning(request, 'warning: You will need to change your password in one week.')
     messages.error(request, 'error: We could not process your request at this time.')
     #messages.set_level(request, messages.WARNING) # NOT working yet
-    return render(request, 'about/contact.html')
+    if request.method == 'POST':
+        # POST, generate form with data from the request
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/about/contact/thankyou')
+        else:
+            pass # is_valid() method created errors dict, can access from form.errors in a template.
+    else:
+        # GET, generate blank form
+        form = ContactForm()
+        #form = ContactForm(initial={'email':'johndoe@coffeehouse.com','name':'John Doe'}) # 有初始值
+    return render(request, 'about/contact.html', {'form':form})
 
 def home(request):
     return HttpResponsePermanentRedirect(reverse('homepage'))

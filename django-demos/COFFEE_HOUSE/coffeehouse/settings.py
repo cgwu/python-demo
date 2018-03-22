@@ -158,7 +158,7 @@ STATICFILES_DIRS = [
 ]
 
 # django-debug-toolbar 设置
-INTERNAL_IPS = ('127.0.0.1','192.168.1.5') #允许这些IP访问时显示debug-toolbar.
+#INTERNAL_IPS = ('127.0.0.1','192.168.1.5') #允许这些IP访问时显示debug-toolbar.
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',

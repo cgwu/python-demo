@@ -40,8 +40,10 @@
     <meta name="keywords" content="{% block metakeywords%}{% endblock metakeywords %}">
 </head>
 <body>
+    {% include 'common/header.html' %}
     <h1>Jinja2 Demo Template App</h1>
     <p>{% block breadcrumb %}Home{% endblock breadcrumb %}</p>     
     {% block body %}{% endblock body %}
+    {% include 'common/footer.html' %}
 </body>
 </html>

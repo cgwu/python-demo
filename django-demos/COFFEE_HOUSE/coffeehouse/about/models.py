@@ -14,6 +14,9 @@ class ContactForm(forms.Form):
     name = forms.CharField(required=False, initial='Please provide your name')
     email = forms.EmailField(label='Your email', initial='We need your email')
     comment = forms.CharField(widget=forms.Textarea, validators=[validate_comment_word_count])
+    field_order = ['email','comment','name']
+    error_css_class = 'error'
+    required_css_class = 'bold'
 
     # 验证单个field.
     def clean_name(self):
@@ -41,4 +44,12 @@ class ContactForm(forms.Form):
             self.add_error('email', forms.ValidationError(msg))
             self.add_error(None, 'Form:' + msg)
 
+
+# Partial Forms, delete some fields, another method:
+# e.g.: {{form.name.as_hiddden}}
+class ContactCommentOnlyForm(ContactForm):
+    def __init__(self, *args, **kwargs):
+        super(ContactCommentOnlyForm, self).__init__(*args, **kwargs)
+        del self.fields['name']
+        del self.fields['email']
 

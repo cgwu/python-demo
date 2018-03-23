@@ -1,0 +1,37 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Contact Page{% endblock breadcrumb %}
+{% block body %}
+<h2>Contact Page Body</h2>
+
+<form method="POST">
+    {{ csrf_input }}
+    <table>
+    {{form.as_table()}}
+    </table>
+    <input type="submit" value="Submit form">
+</form>
+
+<hr>
+<h1>自定义表单:</h1>
+{#{ form.errors }#}
+<div style='color:red'>
+{{ form.non_field_errors() }}
+</div>
+{% for field in form %}
+    <div class="row">
+       <div class="col-md-2">
+        {{ field.label_tag() }}
+        {% if field.help_text %}
+          <sup>{{ field.help_text }}</sup>
+        {% endif %}
+        {{ field.errors }}
+       </div><div class="col-md-10 pull-left">
+         {{ field }}
+       </div>
+    </div>
+ {% endfor %}
+
+ <h1>Partial Form Demo:</h1>
+ {{partialForm.as_ul()}}
+{% endblock body %}
+

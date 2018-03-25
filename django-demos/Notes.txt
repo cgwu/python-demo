@@ -18,51 +18,16 @@ pip install Jinja2
 pip install django-debug-toolbar
 
 # ./manage.py migrate
+
 --- 建立数据库模型迁移
 # ./manage.py makemigrations jj2app
-Migrations for 'jj2app':
-  coffeehouse/jj2app/migrations/0001_initial.py
-    - Create model Store
 
 预览变化:
 # ./manage.py sqlmigrate jj2app 0001
-BEGIN;
---
--- Create model Store
---
-CREATE TABLE "jj2app_store" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(30) NOT NULL, "address" varchar(30) NOT NULL, "city" varchar(30) NOT NULL, "state" varchar(2) NOT NULL);
-COMMIT;
 
 保存到数据库:
 # ./manage.py migrate jj2app
-Operations to perform:
-  Apply all migrations: jj2app
-Running migrations:
-  Applying jj2app.0001_initial... OK
 
 显示迁移:
 # ./manage.py showmigrations
-about
- (no migrations)
-admin
- [X] 0001_initial
- [X] 0002_logentry_remove_auto_add
-auth
- [X] 0001_initial
- [X] 0002_alter_permission_name_max_length
- [X] 0003_alter_user_email_max_length
- [X] 0004_alter_user_username_opts
- [X] 0005_alter_user_last_login_null
- [X] 0006_require_contenttypes_0002
- [X] 0007_alter_validators_add_error_messages
- [X] 0008_alter_user_username_max_length
-contenttypes
- [X] 0001_initial
- [X] 0002_remove_content_type_name
-jj2app
- [X] 0001_initial
-sessions
- [X] 0001_initial
-stores
- (no migrations)
 

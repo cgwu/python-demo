@@ -2,6 +2,7 @@ from django.test import TestCase,TransactionTestCase
 #from django.test.utils import override_settings
 #from django.db import transaction
 import time
+import unittest
 
 #from coffeehouse.jj2app.models import Store
 from .models import Store
@@ -35,4 +36,12 @@ class StoreTestCase(TestCase):
     def tearDown(self):
 #        LOG.debug('=== tear down ===')
         print('销毁测试!')
+
+# 从此处继承，运行测试用例后会保存数据
+# ./manage.py test coffeehouse.jj2app.tests.StoreUnitTestCase.test_save -k
+class StoreUnitTestCase(unittest.TestCase):
+    def test_save(self):
+        store1 = Store.objects.create(name='烧J店2', address='street2号') # Create
+        print('#id', store1.id)
+
 

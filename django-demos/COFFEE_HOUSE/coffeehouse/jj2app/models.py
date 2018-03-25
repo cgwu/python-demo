@@ -27,10 +27,11 @@ def default_city():
 class Store(models.Model):
     #id = models.AutoField(primary_key=True) # Added by default, not required explicitly
     name = models.CharField(max_length=30, validators=[MinLengthValidator(5)])
-    address = models.CharField(max_length=30)
+    address = models.CharField(max_length=30, unique=True)
     city = models.CharField(max_length=30, default=default_city)
     state = models.CharField(max_length=2, default='CA')
     #objects = models.Manager() # Added by default, not required explicitly
+    mgr = models.Manager() # Default model manager rename
 
     #Values for fields that use the auto_now option are updated every time a record is changed, while
     #values for fields that use the auto_now_add option remain frozen for the lifetime of the record.
@@ -40,9 +41,15 @@ class Store(models.Model):
     date_added = models.DateField(auto_now_add=True)
     timestamp_lastupdated = models.DateTimeField(auto_now=True)
     timestamp_added = models.DateTimeField(auto_now_add=True)
+    # 自定义验证
+    def clean(self):
+        # Don't allow 'San Diego' city entries that have state different than 'CA'
+        if self.city == 'San Diego' and self.state != 'CA':
+            raise ValidationError('Wait San Diego is CA!, are you sure there is another San Diego in %s ?'
+                % self.state)
 
     def __str__(self):
-        return "%s (%s, %s)" % (self.name,self.city,self.state)
+        return "id: %d, name: %s, city: %s, state: %s" % (self.id, self.name,self.city,self.state)
 
 
 ITEM_SIZES = (

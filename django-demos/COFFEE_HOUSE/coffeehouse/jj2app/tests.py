@@ -41,7 +41,31 @@ class StoreTestCase(TestCase):
 # ./manage.py test coffeehouse.jj2app.tests.StoreUnitTestCase.test_save -k
 class StoreUnitTestCase(unittest.TestCase):
     def test_save(self):
-        store1 = Store.objects.create(name='烧J店2', address='street2号') # Create
+        #store1 = Store.objects.create(name='烧J店2', address='street2号') # Create
+        #store1 = Store(name='烧J店2 a very long name', address='street2号') # Create
+        store1 = Store(name='烧J店2 a very long name', address='street4号', city='San Diego', state='CB')
+        store1.clean_fields()       # 验证字段集
+        store1.validate_unique()    # 验证唯一性
+        store1.clean()              # 自定义验证
+        store1.save()
         print('#id', store1.id)
 
+    def test_delete(self):
+        #ret = Store.objects.delete(id=18)
+        store_del = Store(id=18)
+        ret = store_del.delete()
+        print(ret)
+
+    def test_refresh_from_db(self):
+        store_refresh = Store(id=27)
+        store_refresh.refresh_from_db()
+        print(store_refresh)
+
+    def test_get(self):
+        res = Store.objects.get(id=27)
+        print(res)
+
+    def test_delete_all(self):
+        ret = Store.mgr.all().delete()
+        print(ret)
 

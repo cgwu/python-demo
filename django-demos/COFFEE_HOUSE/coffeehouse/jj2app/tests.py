@@ -3,6 +3,7 @@ from django.test import TestCase,TransactionTestCase
 #from django.db import transaction
 import time
 import unittest
+from django.db import connection
 
 #from coffeehouse.jj2app.models import Store
 from .models import Store
@@ -43,7 +44,7 @@ class StoreUnitTestCase(unittest.TestCase):
     def test_save(self):
         #store1 = Store.objects.create(name='烧J店2', address='street2号') # Create
         #store1 = Store(name='烧J店2 a very long name', address='street2号') # Create
-        store1 = Store(name='烧J店2 a very long name', address='street4号', city='San Diego', state='CB')
+        store1 = Store(name='烧J店2 a very long name', address='street5号', city='San Diego', state='CA')
         store1.clean_fields()       # 验证字段集
         store1.validate_unique()    # 验证唯一性
         store1.clean()              # 自定义验证
@@ -68,4 +69,16 @@ class StoreUnitTestCase(unittest.TestCase):
     def test_delete_all(self):
         ret = Store.mgr.all().delete()
         print(ret)
+
+    # 执行原生sql: https://blog.csdn.net/kelindame/article/details/52443972
+    def test_rawsql_getone(self):
+        with connection.cursor() as cursor:
+            cursor.execute("select * from jj2app_store where id = %s", [31])
+            ret = cursor.fetchone()
+            print(ret)
+
+    def test_rawsql_delete(self):
+        with connection.cursor() as cursor:
+            ret  = cursor.execute("delete from jj2app_store where id = %s", [30])
+            print('delete ret:',ret)
 

@@ -51,6 +51,21 @@ class Store(models.Model):
     def __str__(self):
         return "id: %d, name: %s, city: %s, state: %s" % (self.id, self.name,self.city,self.state)
 
+    class Meta:
+        ordering = ['-state'] # orders the results by the state field in descending order.
+        # If you want to disable Django executing a model’s default DDL
+        # against a database, you can do so with meta managed=False option. The managed=False option is useful
+        # when a model’s backing database table is created by some other means and you don’t want Django to
+        # interfere with the management of this table.
+        indexes = [
+            models.Index(fields=['city','state']),
+            models.Index(fields=['city'], name='city_idx')
+        ]
+        # The meta abstract option allows a Django model to function as a base class
+        # that doesn’t have a backing database table,
+        # but serves as a foundation for other Django model classes.
+        # abstract = True
+
 
 ITEM_SIZES = (
         ('S', 'Small'),

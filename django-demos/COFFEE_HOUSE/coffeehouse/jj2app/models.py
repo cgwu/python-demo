@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from datetime import date
 from django.utils import timezone
@@ -66,6 +67,11 @@ class Store(models.Model):
         # but serves as a foundation for other Django model classes.
         # abstract = True
 
+# 生成与Model对应的表单
+class StoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = '__all__'
 
 ITEM_SIZES = (
         ('S', 'Small'),

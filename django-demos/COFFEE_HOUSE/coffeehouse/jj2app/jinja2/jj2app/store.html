@@ -1,0 +1,15 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Store{% endblock breadcrumb %}
+{% block body %}
+<h2>Add Store Form</h2>
+
+<form method="POST">
+    {{ csrf_input }}
+    <table>
+    {{form.as_table()}}
+    </table>
+    <input type="submit" value="Submit form">
+</form>
+
+{% endblock body %}
+

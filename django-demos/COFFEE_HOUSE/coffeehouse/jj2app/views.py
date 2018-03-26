@@ -7,7 +7,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 from coffeehouse.about.models import ContactForm,ContactCommentOnlyForm
-from .models import Store
+from .models import Store, StoreForm
 
 # Create your views here.
 '''
@@ -53,4 +53,16 @@ def contact(request):
         form = ContactForm()
         partialForm = ContactCommentOnlyForm()
     return render(request, 'jj2app/contact.html', {'form':form, 'partialForm': partialForm })
+
+def store(request):
+    if request.method == 'POST':
+        form = StoreForm(request.POST)
+        if form.is_valid():
+            form.save() # 保存模型到数据库
+            return HttpResponse('<h1>thank you!</h1>')
+        else:
+            pass
+    else:
+        form = StoreForm()
+    return render(request, 'jj2app/store.html', {'form':form})
 

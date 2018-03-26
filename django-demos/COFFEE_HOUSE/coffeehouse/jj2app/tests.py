@@ -7,6 +7,7 @@ from django.db import connection
 
 #from coffeehouse.jj2app.models import Store
 from .models import Store
+from coffeehouse.utils import db
 
 # Create your tests here.
 # ref:  https://docs.djangoproject.com/en/1.11/topics/testing/overview/
@@ -44,7 +45,7 @@ class StoreUnitTestCase(unittest.TestCase):
     def test_save(self):
         #store1 = Store.objects.create(name='烧J店2', address='street2号') # Create
         #store1 = Store(name='烧J店2 a very long name', address='street2号') # Create
-        store1 = Store(name='烧J店2 a very long name', address='street5号', city='San Diego', state='CA')
+        store1 = Store(name='烧J店2 a very long name', address='street4号', city='San Diego', state='CA')
         store1.clean_fields()       # 验证字段集
         store1.validate_unique()    # 验证唯一性
         store1.clean()              # 自定义验证
@@ -81,4 +82,20 @@ class StoreUnitTestCase(unittest.TestCase):
         with connection.cursor() as cursor:
             ret  = cursor.execute("delete from jj2app_store where id = %s", [30])
             print('delete ret:',ret)
+
+    def test_db_get_all(self):
+        list_dict = db.get_all('select id,name,address,date,datetime from jj2app_store where id>%s',[320])
+        print(list_dict)
+
+    def test_db_get_one(self):
+        list_dict = db.get_one('select id,name,address,date,datetime from jj2app_store where id>%s order by id desc', [32])
+        print(list_dict)
+
+    def test_db_exec(self):
+        list_dict = db.get_one("update jj2app_store set name = name || '!' where id >= %s", [32])
+        print(list_dict)
+
+    def test_db_scalar(self):
+        scalar = db.get_scalar("select count(*) from jj2app_store where id >= %s", [32])
+        print(scalar)
 

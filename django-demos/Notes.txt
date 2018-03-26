@@ -31,3 +31,23 @@ pip install django-debug-toolbar
 显示迁移:
 # ./manage.py showmigrations
 
+Django Models Outside of models.py
+The first technique to store Django models outside of models.py files is to create a folder named 'models' –
+inside the same app – declare class models in stand-alone files in this folder and import the classes through
+this new folder’s __init__ file.
+if the menus.py file contains the Breakfast model class, the __init__ file must declare the line:
+from .menus import Breakfast
+
+# Import Django model class
+from coffeehouse.stores.models import Store
+# Get the store with the name "Downtown" or equivalent SQL: 'SELECT....WHERE
+name = "Downtown"
+downtown_store = Store.objects.get(name="Downtown")
+# Define uptown_email for the query
+uptown_email = "uptown@coffeehouse.com"
+# Get the store with the email value uptown_email or equivalent SQL: 'SELECT....WHERE
+email = "uptown@coffeehouse.com"'
+uptown_email_store = Store.objects.get(email=uptown_email)
+
+
+

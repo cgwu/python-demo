@@ -69,9 +69,11 @@ class Store(models.Model):
 
 # 生成与Model对应的表单
 class StoreForm(forms.ModelForm):
+    additional_field = forms.CharField(required=False, initial='额外字段值')
     class Meta:
         model = Store
         fields = '__all__'
+        exclude = ('state',)
 
 ITEM_SIZES = (
         ('S', 'Small'),

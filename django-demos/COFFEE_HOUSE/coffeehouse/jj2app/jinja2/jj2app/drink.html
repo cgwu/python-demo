@@ -1,0 +1,28 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Store{% endblock breadcrumb %}
+{% block body %}
+<h2>Add Store Form</h2>
+
+<form method="post">
+    {{ csrf_input }}
+    {{ formset.management_form }}
+    <table>
+        {% for form in formset %}
+        <tr><td><ul class="list-inline">{{ form.as_ul() }}</ul></td></tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" value="false" name="additems" id="additems">
+    <button class="btn btn-primary" id="additemsbutton">Add items to order</button>
+    <input type="submit" value="Submit order" class="btn btn-primary">
+</form>
+
+<script src='/static/jquery.min.js'></script>
+<script>
+$(document).ready(function() {
+    $("#additemsbutton").on('click',function(event) {
+        $("#additems").val("true");
+   });
+});
+</script>
+{% endblock body %}
+

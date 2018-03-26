@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.db import transaction
+from django.forms import formset_factory
+
 # Python logging package
 import logging
 # Standard instance of a logger with __name__
@@ -8,8 +10,31 @@ LOG = logging.getLogger(__name__)
 
 from coffeehouse.about.models import ContactForm,ContactCommentOnlyForm
 from .models import Store, StoreForm
+from .forms import DrinkForm
 
 # Create your views here.
+def drink(request):
+    extra_forms = 2
+    # extra参数,额外的表单个数(2代表共3个表单);max_num最多表单数.
+    #formset_factory(form, formset=BaseFormSet, extra=1, can_order=False, can_delete=False,
+    #   max_num=None, min_num=None, validate_max=False, validate_min=False)
+    DrinkFormSet = formset_factory(DrinkForm, extra=extra_forms, max_num=20)
+    if request.method == 'POST':
+        if 'additems' in request.POST and request.POST['additems'] == 'true':
+            formset_dictionary_copy = request.POST.copy()
+            formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy ['form-TOTAL_FORMS']) + extra_forms
+            formset = DrinkFormSet(formset_dictionary_copy)
+        else:
+            formset = DrinkFormSet(request.POST)
+            if formset.is_valid():
+                #LOG.info(formset)
+                return HttpResponse('保存成功!')
+    else:
+        formset = DrinkFormSet(initial=[{'name':1, 'size':'m', 'amount': 1}])
+    return render(request, 'jj2app/drink.html', {'formset': formset})
+
+
+
 '''
 Django supports the ATOMIC_REQUESTS option that is "disabled by default".
 The ATOMIC_REQUEST is used to open

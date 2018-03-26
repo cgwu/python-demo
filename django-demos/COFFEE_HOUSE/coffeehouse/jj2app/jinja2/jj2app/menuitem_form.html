@@ -1,0 +1,18 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Menu Item{% endblock breadcrumb %}
+{% block body %}
+<h2>Add/Edit Menu Item Form</h2>
+
+<form method="POST">
+    {{ csrf_input }}
+    <table>
+    {{form.as_table()}}
+    </table>
+    <button type="submit" class="btn btn-primary">
+    {% if object == None%}Create{% else %}Update{% endif %}
+    </button>
+
+</form>
+
+{% endblock body %}
+

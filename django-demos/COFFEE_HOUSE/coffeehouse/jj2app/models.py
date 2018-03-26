@@ -101,3 +101,16 @@ class Item(models.Model):
     remark = models.CharField(max_length=20, blank=True, null=True)
     calories = models.IntegerField(null=True, validators=[calorie_watcher])
 
+class MenuItem(models.Model):
+   name = models.CharField(max_length=30)
+   description = models.CharField(max_length=100)
+
+class MenuItemForm(forms.ModelForm):
+    class Meta:
+        model = MenuItem
+        fields = '__all__'
+        widgets = {
+                'description': forms.Textarea(),
+        }
+
+

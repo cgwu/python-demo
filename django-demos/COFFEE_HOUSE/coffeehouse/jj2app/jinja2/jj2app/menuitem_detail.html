@@ -1,0 +1,10 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Menu Item{% endblock breadcrumb %}
+{% block body %}
+<h2>Menu Item Detail</h2>
+
+<h1>{{ menuitem.name|title }}</h1>
+<p>{{ menuitem.description }} </p>
+<p>{{ menuitem.id }} </p>
+{% endblock body %}
+

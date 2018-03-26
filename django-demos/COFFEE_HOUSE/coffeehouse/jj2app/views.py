@@ -3,13 +3,19 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpRespons
 from django.db import transaction
 from django.forms import formset_factory
 
+from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic import UpdateView
+from django.core.urlresolvers import reverse_lazy
+
 # Python logging package
 import logging
 # Standard instance of a logger with __name__
 LOG = logging.getLogger(__name__)
 
 from coffeehouse.about.models import ContactForm,ContactCommentOnlyForm
-from .models import Store, StoreForm
+from .models import Store, StoreForm, MenuItem, MenuItemForm
 from .forms import DrinkForm
 
 # Create your views here.
@@ -90,4 +96,30 @@ def store(request):
     else:
         form = StoreForm()
     return render(request, 'jj2app/store.html', {'form':form})
+
+
+# Django class-based view with CreateView to create model records
+class MenuItemCreation(CreateView):
+    template_name = 'jj2app/menuitem_custom_form.html' # 自定义表单名,默认为jj2app/menuitem_form.html
+    context_type='text/html'
+    model = MenuItem
+    form_class = MenuItemForm
+    success_url = reverse_lazy('jj2app:menu-item-list')
+
+    def get_context_data(self,**kwargs):
+        kwargs['special_context_variable'] = 'My special context variable!!!'
+        context = super(MenuItemCreation, self).get_context_data(**kwargs)
+        return context
+
+class MenuItemList(ListView):
+    model = MenuItem
+    ordering = ['id']
+
+class MenuItemDetail(DetailView):
+    model = MenuItem
+
+class MenuItemUpdate(UpdateView):
+    model = MenuItem
+    form_class = MenuItemForm
+    success_url = reverse_lazy('jj2app:menu-item-list')
 

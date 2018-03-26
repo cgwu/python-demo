@@ -49,7 +49,7 @@ class Store(models.Model):
                 % self.state)
 
     def __str__(self):
-        return "id: %d, name: %s, city: %s, state: %s" % (self.id, self.name,self.city,self.state)
+        return "id: %s, name: %s, city: %s, state: %s" % (str(self.id), self.name,self.city,self.state)
 
     class Meta:
         ordering = ['-state'] # orders the results by the state field in descending order.

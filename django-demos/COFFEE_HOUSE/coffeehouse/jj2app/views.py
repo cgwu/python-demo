@@ -27,14 +27,15 @@ def foo2(request):
     return render(request, 'jj2app/foo.html')
 
 def foo(request):
-    LOG.warning('您访问了jj2app/foo!')
+    street_id = request.GET.get('street_id')
+    LOG.warning('您访问了jj2app/foo! street id: %s' % street_id)
     # 上面可以是一个独立的事务
     # Open new transaction with context manager
     with transaction.atomic():
-        store1 = Store(name='大郎烧饼10', address='沉香street#3')
+        store1 = Store(name='大郎烧饼10', address='沉香street#3'+street_id)
         store1.save() #测试保存到数据库成功
-        store2 = Store(name='大郎烧饼20', address='沉香street#4')
-        store2.save() #测试保存到数据库成功
+        #store2 = Store(name='大郎烧饼20', address='沉香street#4')
+        #store2.save() #测试保存到数据库成功
     # 下面可以开启另一个新事务
     return render(request, 'jj2app/foo.html')
 

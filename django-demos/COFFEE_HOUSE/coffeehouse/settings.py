@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'coffeehouse.about',
     'coffeehouse.stores',
     'coffeehouse.jj2app',
+#    'coffeehouse.jj2app.apps.Jj2appConfig',
     'debug_toolbar',
 ]
 
@@ -240,8 +241,8 @@ LOGGING = {
         },
     },
     'root': {
-        #'level': 'DEBUG',
-        'level': 'WARNING',
+        'level': 'DEBUG',
+        #'level': 'WARNING',
         'handlers': ['console'],
     },
     'loggers': {

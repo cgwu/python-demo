@@ -2,13 +2,18 @@ from django.shortcuts import render
 from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpResponseRedirect
 from django.db import transaction
 from django.forms import formset_factory
-
+from django.core import serializers
+import json
 #from django.views.generic.edit import CreateView
 #from django.views.generic.list import ListView
 #from django.views.generic.detail import DetailView
 # 从下面空间全部导入
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from django.core.urlresolvers import reverse_lazy
+
+from rest_framework import generics, viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 # Python logging package
 import logging
@@ -18,6 +23,7 @@ LOG = logging.getLogger(__name__)
 from coffeehouse.about.models import ContactForm,ContactCommentOnlyForm
 from .models import Store, StoreForm, MenuItem, MenuItemForm
 from .forms import DrinkForm
+from .serializers import StoreSerializer
 
 # Create your views here.
 def drink(request):
@@ -128,4 +134,45 @@ class MenuItemDelete(DeleteView):
     model = MenuItem
     form_class = MenuItemForm
     success_url = reverse_lazy('jj2app:menu-item-list')
+
+def rest_store(request):
+    #store_list = MenuItem.objects.all()
+    #store_list = Store.mgr.all()
+    store_list = Store.objects.all()
+    store_names = [ {'id': store.id , 'name': store.name, 'address': store.address}
+            for store in store_list]
+    return HttpResponse(json.dumps(store_names), content_type='application/json')
+
+
+def rest_store_detail(request, store_id=None):
+    store_list = Store.objects.filter(id=store_id)
+    if 'type' in request.GET and request.GET['type'] == 'xml':
+        serialized_stores = serializers.serialize('xml', store_list)
+        return HttpResponse(json.dumps(serialized_stores), content_type='application/xml')
+    else:
+        serialized_stores = serializers.serialize('json', store_list)
+        return HttpResponse(json.dumps(serialized_stores), content_type='application/json')
+
+# Django REST framework class-based views
+class StoreList(APIView):
+    def get(self, request, format=None):
+        stores = Store.objects.all()
+        serializer = StoreSerializer(stores, many=True)
+        return Response(serializer.data)
+    #def post(self, request, format=None):
+    #    pass
+    # logic for HTTP POST operation
+
+    #def delete(self, request, format=None):
+    #    pass
+    # logic for HTTP DELETE operation
+
+class StoreList2(generics.ListCreateAPIView):
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
+
+
+class StoreViewSet(viewsets.ModelViewSet):
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
 

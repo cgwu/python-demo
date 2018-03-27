@@ -32,7 +32,7 @@ class Store(models.Model):
     city = models.CharField(max_length=30, default=default_city)
     state = models.CharField(max_length=2, default='CA')
     #objects = models.Manager() # Added by default, not required explicitly
-    mgr = models.Manager() # Default model manager rename
+    #mgr = models.Manager() # Default model manager rename,增加后objects会不可用,不建议使用以求统一.
 
     #Values for fields that use the auto_now option are updated every time a record is changed, while
     #values for fields that use the auto_now_add option remain frozen for the lifetime of the record.

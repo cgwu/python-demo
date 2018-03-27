@@ -54,4 +54,9 @@ the Django allauth package offers one of the best features set (e.g., social aut
 as well as the best integration with the django.contrib.auth package.
 pip install django-allauth
 
+RESTful Service组件:
+pip install djangorestframework
+http://django-rest-swagger.readthedocs.io/en/latest/
+pip install django-rest-swagger
+
 

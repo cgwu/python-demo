@@ -22,6 +22,11 @@ from django.conf import settings
 #from coffeehouse.about import views as about_views
 #from coffeehouse.stores import views as stores_views
 
+# ref: http://django-rest-swagger.readthedocs.io/en/latest/
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='CoffeeHouse API')
+
 urlpatterns = [
     url(r'^accounts/', include('allauth.urls')), # all auth package
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -40,6 +45,7 @@ urlpatterns = [
     url(r'^stores/', include('coffeehouse.stores.urls', namespace='stores'), {'location':'headquarters'}),
 
     url(r'^jj2app/', include('coffeehouse.jj2app.urls', namespace='jj2app')),
+    url(r'^api-doc$', schema_view),
 ]
 
 if settings.DEBUG:

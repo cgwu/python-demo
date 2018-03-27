@@ -1,0 +1,18 @@
+{% extends 'jj2app/base.html' %}
+{% block breadcrumb %}JJ2app Menu Item{% endblock breadcrumb %}
+{% block body %}
+<h1>Delete MenuItem</h1>
+
+<p>Are you sure you want to delete the menu item: {{ {'name':'foo'} | tojson }}?</p>
+<p>Are you sure you want to delete the menu item: ?</p>
+<p>{{ menuitem.id }} </p>
+<p>{{ menuitem.name|title }}</p>
+<p>{{ menuitem.description }} </p>
+
+<form action="" method="POST">
+    {{ csrf_input }}
+    <input type="submit" action="" value="Yes, delete." />
+</form>
+
+{% endblock body %}
+

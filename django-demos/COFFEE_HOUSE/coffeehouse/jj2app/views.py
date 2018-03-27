@@ -3,10 +3,11 @@ from django.http import HttpResponsePermanentRedirect, HttpResponse, HttpRespons
 from django.db import transaction
 from django.forms import formset_factory
 
-from django.views.generic.edit import CreateView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic import UpdateView
+#from django.views.generic.edit import CreateView
+#from django.views.generic.list import ListView
+#from django.views.generic.detail import DetailView
+# 从下面空间全部导入
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from django.core.urlresolvers import reverse_lazy
 
 # Python logging package
@@ -119,6 +120,11 @@ class MenuItemDetail(DetailView):
     model = MenuItem
 
 class MenuItemUpdate(UpdateView):
+    model = MenuItem
+    form_class = MenuItemForm
+    success_url = reverse_lazy('jj2app:menu-item-list')
+
+class MenuItemDelete(DeleteView):
     model = MenuItem
     form_class = MenuItemForm
     success_url = reverse_lazy('jj2app:menu-item-list')

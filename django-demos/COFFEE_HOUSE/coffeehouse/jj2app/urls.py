@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^menu_item/create$', views.MenuItemCreation.as_view(), name='menu-item-create'),
     url(r'^menu_item/detail/(?P<pk>\d+)$', views.MenuItemDetail.as_view(), name='menu-item-detail'),
     url(r'^menu_item/edit/(?P<pk>\d+)$', views.MenuItemUpdate.as_view(), name='menu-item-edit'),
+    url(r'^menu_item/delete/(?P<pk>\d+)$', views.MenuItemDelete.as_view(), name='menu-item-delete'),
     url(r'^menu_item/list$', views.MenuItemList.as_view(), name='menu-item-list'),
 ]

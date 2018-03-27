@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'coffeehouse.about',
     'coffeehouse.stores',
     'coffeehouse.jj2app',
+    'coffeehouse.registration',
 #    'coffeehouse.jj2app.apps.Jj2appConfig',
     'debug_toolbar',
 ]
@@ -261,4 +262,6 @@ LOGGING = {
     }
 }
 
+# 配置自定义用户表
+AUTH_USER_MODEL = 'registration.CoffeehouseUser'
 

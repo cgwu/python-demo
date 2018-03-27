@@ -23,6 +23,7 @@ from django.conf import settings
 #from coffeehouse.stores import views as stores_views
 
 urlpatterns = [
+    url(r'^accounts/', include('allauth.urls')), # all auth package
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="homepage"),

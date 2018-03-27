@@ -50,4 +50,8 @@ email = "uptown@coffeehouse.com"'
 uptown_email_store = Store.objects.get(email=uptown_email)
 
 
+the Django allauth package offers one of the best features set (e.g., social authentication and email based users),
+as well as the best integration with the django.contrib.auth package.
+pip install django-allauth
+
 

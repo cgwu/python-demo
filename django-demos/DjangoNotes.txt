@@ -1,0 +1,344 @@
+安装包的路径:
+/root/mydjangosandbox/lib/python3.4/site-packages
+
+./manage.py runserver 192.168.1.80:8000
+
+Table 1-2. Django ENGINE value for different databases
+Database    Django ENGINE value
+MySQL       django.db.backends.mysql
+Oracle      django.db.backends.oracle
+PostgreSQL  django.db.backends.postgresql_psycopg2
+SQLite      django.db.backends.sqlite3
+
+Table 1-4.  Python packages for different databases
+Database    Python package pip installation syntax
+PostgreSQL psycopg2     pip install psycopg2
+MySQL mysql-python      pip install mysql-python
+Oracle cx_Oracle        pip install cx_Oracle
+SQLite Included with Python 2.5+ N/A
+
+python manage.py migrate
+
+To install the Django admin site documentation app, you first need to install the docutils Python
+package with the pip package manager executing the following command: pip install docutils. Once
+you install the docutils package, you can proceed to install the Django admin site documentation app as any
+other Django app.
+
+Table 2-1.  Regular expression syntax for Django urls: Symbol (Meaning)
+^ (Start of url) $ (End of url) \ (Escape for interpreted | (Or)values) 
++ (1 or more ? (0 or 1 occurrences) {n} (n occurrences) {n,m} (Between n and m occurrences) occurrences)
+. (Any character) \d+ (One or more digits).
+                 Note escape, without
+                escape matches ‘d+’
+                   literally.
+\w+ (One or more word [-@\w]+ (One or more
+characters, equivalent word character, dash. or at
+to [a-zA-Z0-9_]). Note sign). Note no escape for
+escape, without escape \w since it’s enclosed in
+matches ‘w+’ literally]. brackets (i.e., a grouping).
+[] (Character grouping) (?P<name>___) (Capture
+occurrence that matches
+regexp ___ and assign it
+to name
+\D+ (One or more
+non-digits).Note
+escape, without escape
+matches ‘D+’ literally]
+[a-zA-Z0-9_]+ (One or
+more word characters,
+letter lower or uppercase,
+number, or underscore)
+
+Listing 2-22.  Django view method response alternatives
+# Option 1)
+from django.shortcuts import render
+def detail(request,store_id='1',location=None):
+    ...
+    return render(request,'stores/detail.html', values_for_template)
+# Option 2)
+from django.template.response import TemplateResponse
+def detail(request,store_id='1',location=None):
+    ...
+    return TemplateResponse(request, 'stores/detail.html', values_for_template)
+# Option 3)
+from django.http import HttpResponse
+from django.template import loader, Context
+def detail(request,store_id='1',location=None):
+     ...
+     response = HttpResponse()
+     t = loader.get_template('stores/detail.html')
+     c = Context(values_for_template)
+     return response.write(t.render(c))
+
+Listing 2-23.  HTTP Content-type and HTTP Status for Django view method responses
+from django.shortcuts import render
+# No method body(s) and only render() example provided for simplicity
+# Returns content type text/plain, with default HTTP 200
+return render(request,'stores/menu.csv', values_for_template, content_type='text/plain')
+# Returns HTTP 404, wtih default text/html
+# NOTE: Django has a built-in shortcut & template 404 response, described in the next
+section
+return render(request,'custom/notfound.html',status=404)
+# Returns HTTP 500, wtih default text/html
+# NOTE: Django has a built-in shortcut & template 500 response, described in the next
+section
+return render(request,'custom/internalerror.html',status=500)
+# Returns content type application/json, with default HTTP 200
+# NOTE: Django has a built-in shortcut JSON response, described in the next section
+return render(request,'stores/menu.json', values_for_template, content_type='application/json')
+
+Table 2-3.  Django shortcut exceptions to trigger HTTP statuses
+HTTP status code Python code sample
+404 (Not Found) from django.http import Http404
+               raise Http404
+500 (Internal Server Error) raise Exception
+400 (Bad Request) from django.core.exceptions import SuspiciousOperation
+                 raise SuspiciousOperation
+403 (Forbidden) from django.core.exceptions import PermissionDenied
+               raise PermissionDenied
+
+
+Table 2-5.  Django shortcuts for inline and streaming content responses
+Purpose or HTTP Status code Python code sample
+304 (NOT MODIFIED) from django.http import HttpResponseNotModified
+                  return HttpResponseNotModified()*
+400 (BAD REQUEST) from django.http import HttpResponseBadRequest
+                 return HttpResponseBadRequest(“<h4>The request doesn’t
+                    look right</h4>”)
+404 (NOT FOUND) from django.http import HttpResponseNotFound
+               return HttpResponseNotFound(“<h4>Ups, we can’t find
+                  that page</h4>”)
+403 (FORBIDDEN) from django.http import HttpResponseForbidden
+               return HttpResponseForbidden(“Can’t look at anything
+                  here”
+                   ,content_type=“text/plain”)
+405 (METHOD NOT ALLOWED) from django.http import HttpResponseNotAllowed
+                        return HttpResponseNotAllowed(“<h4>Method not
+                         allowed</h4>”)
+410 (GONE) from django.http import HttpResponseGone
+          return HttpResponseGone(“No longer here”
+             ,content_
+            type=“text/plain”)
+500 (INTERNAL SERVER ERROR) from django.http import HttpResponseServerError
+                           return HttpResponseServerError(“<h4>Ups, that’s a mistake
+                              on our part, sorry!</h4>”)
+
+
+
+Table 2-5. (continued)
+Purpose or HTTP Status code Python code sample
+Inline response that serializes data to JSON from django.http import JsonResponse
+(Defaults to HTTP 200 and content type data_dict = {’name’:’Downtown’’address’:’Main
+application/json) ,
+                 #385’’city’:’San Diego’’state’:’CA’}
+                                  ,
+                                 ,
+                                return JsonResponse(data_dict)
+Inline response that stream data (Defaults from django.http import StreamingHttpResponse
+to HTTP 200 and streaming content, which return StreamingHttpResponse(large_data_structure)
+is an iterator of strings) 
+Inline response that stream binary files from django.http import FileResponse
+(Defaults to HTTP 200 and streaming return FileResponse(open(’Report.pdf’’rb’))
+content) ,
+Inline response with any HTTP status code from django.http import HttpResponse
+(Defaults to HTTP 200) return HttpResponse(“<h4>Django inline response</h4>”)
+* The HTTP 304 status code indicates a “Not Modified” response, so you can't send content in the response, it
+should always be empty.
+
+Listing 2-26.  HttpResponse with template and custom CSV file download
+from django.http import HttpResponse
+from django.utils import timezone
+from django.template import loader, Context
+response = HttpResponse(content_type='text/csv')
+response['Content-Disposition'] = 'attachment; filename=Users_%s.csv' % str(timezone.now().
+today())
+t = loader.get_template('dashboard/users_csvexport.html')
+c = Context({'users': sorted_users,})
+response.write(t.render(c))
+return response
+
+Table 3-2.  Built-in Django template loaders
+Template loader                                 class Description
+django.template.loaders.filesystem.Loader       Searches and loads templates in directories declared
+                                         in the DIRS variable. Enabled by default when DIRS
+                                        is not empty.
+django.template.loaders.app_directories.Loader  Searches and loads templates from subdirectories
+                                              named templates in all apps declared in
+                                             INSTALLED_APPS. Enabled by default when APP_
+                                            DIRS is True.
+django.template.loaders.cached.Loader           Searches for templates from an in-memory cache,
+                                     after loading templates from a file-system or app
+                                    directory loader.
+django.template.loaders.locmem.Loader           Searches for templates from an in-memory cache,
+                                     after loading templates from a Python dictionary.
+
+
+{% include ['special_sidebar.html', 'sidebar.html'] ignore missing %}
+
+
+self.filters['customcoffee'] = customcoffee
+self.filters['squarerootintext'] = squarerootintext
+self.filters['startswithvowel'] = startswithvowel
+self.tests['startswithvowel'] = startswithvowel
+
+Listing 5-16.  Define loggers in a Python module
+# Python logging package
+import logging
+# Standard instance of a logger with __name__
+stdlogger = logging.getLogger(__name__)
+# Custom instance logging with explicit name
+dbalogger = logging.getLogger('dba')
+
+Enter Sentry, a reporting and aggregation application. Sentry facilitates the inspection of log messages
+through a web-based interface, where you can quickly determine the most relevant and common log
+messages.
+To use Sentry you need to follow two steps: set up Sentry to receive your project log messages, and set
+up your Django project to send log messages to Sentry.
+
+
+Table 5-2.  Python logging formatter fields
+Field syntax Description
+%(name)s Name of the logger (logging channel)
+%(levelno)s Numeric logging level for the message (DEBUG, INFO,WARNING, ERROR,
+           CRITICAL)
+%(levelname)s Text logging level for the message ("DEBUG", "INFO","WARNING", "ERROR",
+             "CRITICAL")
+%(pathname)s Full pathname of the source file where the logging call was issued (if available)
+%(filename)s Filename portion of pathname
+%(module)s Module (name portion of filename)
+%(lineno)d Source line number where the logging call was issued (if available)
+%(funcName)s Function name
+%(created)f Time when the log record was created (time.time() return value)
+%(asctime)s Textual time when the log record was created
+%(msecs)d Millisecond portion of the creation time
+%(relativeCreated)d Time in milliseconds when the log record was created,relative to the time the
+                   logging module was loaded (typically at application startup time)
+%(thread)d Thread ID (if available)
+%(threadName)s Thread name (if available)
+%(process)d Process ID (if available)
+%(message)s The result of record.getMessage(), computed just as the record is emitted
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def contact(request):
+    # Any POST-processing inside view method
+    # ignores if there is or isn't a CSRF token
+
+from django.views.decorators.csrf import csrf_protect
+@csrf_protect
+def contact(request):
+    # Any POST processing inside view method
+    # checks for the presence of a CSRF token
+    # even when CsrfViewMiddleware is removed
+
+Table 6-1.  Django form errors methods
+Method Description
+form.errors Gives you access to the raw errors dictionary.
+form.errors.as_data()       Outputs a dictionary with the original ValidationError instances. For example,
+                     if errors outputs {’email’:[’This field is required’]}, then errors.as_data() outputs
+                            {’email’:[ValidationError([’This field is required’])]}.
+form.errors.as_json         Outputs a JSON structure with the contents of the errors dictionary. For example,
+(escape_html=False) if errors outputs {’email’:[’This field is required’]}, then errors.as_json() outputs
+                           {’email’:[{’message’:’This field is required’’code’:’required’}]}. Note that by default
+                                              ,
+                                             as_json() does not escape its output, if you want errors to be escaped use the
+                                            escape_html flag (e.g., as_json(escape_html=True)).
+form.add_error      Associates an error message to a given form field. Although typically used in the
+field,message) clean() method, it can be used in a view method if necessary. Note that if field is
+              not specified the error message goes on to form part of the __all__ placeholder
+             key in errors which are deemed non-field errors.
+form.has_error      Returns a True or False value if a given field has an error. Note that by default
+(field, code=None) has_error returns True if any error type is associated with a field. To perform the
+                  evaluation against a particular error type you can use the code keyword (e.g.,
+                 form.has_error(’email’code=’required’)). To check if a form has non-field errors
+                        ,
+                       you can use NON_FIELD_ERRORS as the field value.
+form.non_field_errors()     Returns a list of non-form errors associated with a form (i.e., the __all__
+placeholder key). These errors are typically created in the clean() clean method
+via ValidationError or add_error(None,’message’).
+
+Django form field type:
+forms.BooleanField()        checkbox
+forms.NullBooleanField()    select:YES/NO
+forms.CharField             text
+forms.EmailField            email
+forms.GenericIPAddressField() text
+
+# Django form output with form.as_table、form.as_p()、form.as_ul()
+251
+
+form呈现控件定义:
+Django(default):
+l ~/mydjangosandbox/lib/python3.4/site-packages/django/forms/templates/django/forms/widgets/
+Jinja2:
+l ~/mydjangosandbox/lib/python3.4/site-packages/django/forms/jinja2/django/forms/widgets/
+
+
+./manage.py makemigrations jj2app
+./manage.py sqlmigrate jj2app 0003
+
+psql -U postgres -h 192.168.1.5 django_demo
+
+~/workspace/python-demo/django-demos/COFFEE_HOUSE
+
+able 7-5.  Built-in Django model signals
+Signal(s) Signal class Description
+pre_init        django.db.models.signals.pre_init Signal emitted at the beginning and end of
+post_init       django.db.models.signals.post_init the model’s __init__() method.
+pre_save        django.db.models.signals.pre_save Signal emitted at the beginning and end of
+post_save       django.db.models.signals.post_save the model’s __save__() method.
+pre_delete      django.db.models.signals.pre_delete Signal emitted at the beginning and end of
+post_delete     django.db.models.signals.post_delete the model’s __delete__() method.
+m2m_changed     django.db.models.signals.m2m_changed Signal emitted when a ManyToManyField
+                                                is changed on a model instance.
+class_prepared  django.db.models.signals.class_prepared Signal emmited when a model has been
+                                                      defined and registered with Django’s
+                                                       model system. Used internally by Django,
+                                                      but rarely used for other circumstances.
+
+
+Table 9-1.  Model form data type mapping between models and forms
+Model field             Form field
+models.BooleanField     forms.BooleanField
+models.DateField        forms.DateField
+models.DateTimeField    forms.DateTimeField
+models.DecimalField     forms.DecimalField
+models.EmailField       forms.EmailField
+models.FileField        forms.FileField
+models.FilePathField    forms.FilePathField
+models.FloatField       forms.FloatField
+models.ImageField       forms.ImageField
+models.IntegerField     forms.IntegerField
+models.IPAddressField   forms.IPAddressField
+models.GenericIPAddressField forms.GenericIPAddressField
+models.NullBooleanField forms.NullBooleanField
+models.SlugField        forms.SlugField
+models.TimeField        forms.TimeField
+models.URLField         forms.URLField
+models.AutoField        Not represented in the form, because Auto-model fields are
+models.BigAutoField     generated by the database.
+models.BigIntegerField forms.IntegerField, with min_value set to
+                      -9223372036854775808 and max_value set to
+                     9223372036854775807)
+models.CharField        forms.CharField, with max_length set to the model field’s
+                    max_length and empty_value set to None if null=True
+models.CommaSeparatedIntegerField forms.CharField
+models.ForeignKey       forms.ModelChoiceField
+models.ManyToManyField  forms.ModelMultipleChoiceField
+models.PositiveIntegerField forms.IntegerField, with min_value set to 0
+models.PositiveSmallIntegerField forms.IntegerField, with min_value set to 0
+models.SmallIntegerField forms.IntegerField
+models.TextField        forms.CharField, with widget=forms.Textarea
+
+高级表单库:
+http://django-crispy-forms.readthedocs.io/en/latest/index.html
+
+Listing 12-11.  Django REST framework set to restrict all services to authenticated users
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+
+

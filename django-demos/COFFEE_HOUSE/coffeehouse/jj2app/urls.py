@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^menu_item/list$', views.MenuItemList.as_view(), name='menu-item-list'),
     url(r'^rest/$', views.rest_store, name='rest_index'),
     url(r'^rest/(?P<store_id>\d+)$', views.rest_store_detail, name='rest_store_detail'),
+    url(r'^api/store_func/$', views.func_rest_store, name='api_store_func'),
+    url(r'^api/store_func_custom/$', views.func_rest_custom),
     url(r'^api/store/$', views.StoreList.as_view(), name='api_store_list'),
     url(r'^api/store2/$', views.StoreList2.as_view(), name='api_store_list2'),
     # URL: 视图集合 /jj2app/api2/stores/

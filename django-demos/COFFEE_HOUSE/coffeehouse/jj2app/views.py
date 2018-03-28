@@ -14,6 +14,8 @@ from django.core.urlresolvers import reverse_lazy
 from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Python logging package
 import logging
@@ -24,6 +26,7 @@ from coffeehouse.about.models import ContactForm,ContactCommentOnlyForm
 from .models import Store, StoreForm, MenuItem, MenuItemForm
 from .forms import DrinkForm
 from .serializers import StoreSerializer
+from coffeehouse.utils import db
 
 # Create your views here.
 def drink(request):
@@ -152,6 +155,23 @@ def rest_store_detail(request, store_id=None):
     else:
         serialized_stores = serializers.serialize('json', store_list)
         return HttpResponse(json.dumps(serialized_stores), content_type='application/json')
+
+@api_view(['GET','POST','DELETE'])
+#@permission_classes((IsAuthenticated, ))
+def func_rest_store(request):
+    if request.method == 'GET':
+        stores = Store.objects.all()
+        serializer = StoreSerializer(stores, many=True)
+        # LOG.info(serializer.data) # type: OrderedDict
+        return Response(serializer.data)
+
+# 自定义方法查询数据,使用SQL.
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def func_rest_custom(request):
+    if request.method == 'GET':
+        list_dict = db.get_all('select id,name,address,date,datetime from jj2app_store where id>%s order by id desc', [34])
+        return Response(list_dict)
 
 # Django REST framework class-based views
 class StoreList(APIView):

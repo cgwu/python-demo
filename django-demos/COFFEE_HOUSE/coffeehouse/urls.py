@@ -45,6 +45,8 @@ urlpatterns = [
     url(r'^stores/', include('coffeehouse.stores.urls', namespace='stores'), {'location':'headquarters'}),
 
     url(r'^jj2app/', include('coffeehouse.jj2app.urls', namespace='jj2app')),
+    # /rest-auth/login
+    url(r'^rest-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-doc$', schema_view),
 ]
 

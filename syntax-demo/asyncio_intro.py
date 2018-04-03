@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # from: http://python.jobbole.com/87541/
+# https://stackoverflow.com/questions/42231161/asyncio-gather-vs-asyncio-wait
 import asyncio
 import functools
 

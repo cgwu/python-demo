@@ -12,4 +12,8 @@ print(frag)
 ret = urlsplit(url)
 print(ret,type(ret))
 
+print('url join test:', urljoin('http://www.tornadoweb.org/en/stable/guide/','../../abc.html'))
+print('url join test:', urljoin('http://www.tornadoweb.org/en/stable/guide/','./efg.html'))
+# 若为绝对路径，直接返回第二个参数
+print('url join test:', urljoin('http://www.tornadoweb.org/en/stable/guide/','https://www.baidu.com/'))
 
